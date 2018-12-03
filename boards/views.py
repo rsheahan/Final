@@ -9,7 +9,7 @@ def index(request):
 
     return render(request, template)
 
-def viewRegister(request):
+def register(request):
 
     return render(request, 'register.html')
 
