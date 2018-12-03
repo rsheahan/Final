@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="{% url 'addUser'%}" method="post">{% csrf_token %}
+
+        First Name:   <input type="text" name="firstName" placeholder="Your Name Here">
+        Last Name:    <input type="text" name="lastName" placeholder="Your Last Name Here">
+        Age:          <input type="text" name="age" placeholder="Your age">
+        Email:        <input type="text" name="email" placeholder="Your Email Here">
+
+        <input type="submit" value="Register">
+
+    </form>
+
+
+{%  endblock %}
