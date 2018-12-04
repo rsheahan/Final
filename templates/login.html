@@ -9,13 +9,19 @@
 
     {% csrf_token %}
 
-    Username: <input name = "username" type = "text"> <br>
+    Email: <input name = "email" type = "text"> <br>
 
-    Password: <input name="password" type = "text"> <br>
+    Password: <input name="password" type = "password"> <br>
 
     <input type="submit" value="Login">
 
     </form>
+
+    <br>
+
+    <a href="{%  url 'index' %}">Home</a> <br>
+
+    <a href="{%  url 'register' %}">Register</a> <br>
 
 
 

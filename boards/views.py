@@ -49,17 +49,17 @@ def addUser(request):
 
         return redirect('index')
 
-#Authenticate -> Authenticate/Register/Index
+#Authenticate -> Login/User Index
 
 def authenticate(request):
 
-    username = request.POST['username']
+    email = request.POST['email']
     password = request.POST['password']
-    user = authenticate(request, username = username, password = password)
+    user = authenticate(request, email = email, password = password)
 
-    if User is not None:
-        login(request, User)
-        return redirect('index')
+    if user is not None:
+        login(request, user)
+        return redirect('userindex')
 
     else:
         return render(request, 'login.html')
