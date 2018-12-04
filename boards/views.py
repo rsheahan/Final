@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from boards.models import User
 
+#Index -> ViewBoard/Login/Register
 
 def index(request):
 
@@ -9,7 +10,7 @@ def index(request):
 
     return render(request, template)
 
-#Index -> Login/ViewBoard/Register
+#View Board -> View Picture
 
 def viewBoard(request):
 
@@ -17,24 +18,21 @@ def viewBoard(request):
 
     return render(request, template)
 
+#Login -> Authenticate
+
 def login(request):
 
-    if not request.user.is_authenticated:
-        return render(request, 'register.html')
+    template = 'login.html'
 
-    return render(request, 'login.html')
+    return render(request, template)
 
-
-
-#Login -> Register/Authenticate
-
-#Register
+#Register -> Add User
 
 def register(request):
 
     return render(request, 'register.html')
 
-#If (new user) then add user else authenticate
+#Add User
 
 def addUser(request):
 
@@ -51,8 +49,7 @@ def addUser(request):
 
         return redirect('index')
 
-
-#Authenticate
+#Authenticate -> Authenticate/Register/Index
 
 def authenticate(request):
 
@@ -60,8 +57,8 @@ def authenticate(request):
     password = request.POST['password']
     user = authenticate(request, username = username, password = password)
 
-    if user is not None:
-        login(request, user)
+    if User is not None:
+        login(request, User)
         return redirect('index')
 
     else:
