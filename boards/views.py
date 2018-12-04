@@ -1,61 +1,59 @@
-
 from django.shortcuts import render, redirect
 from boards.models import User
 
-#Index -> ViewBoard/Login/Register
+
+# Index -> ViewBoard/Login/Register
 
 def index(request):
-
     template = 'index.html'
 
     return render(request, template)
 
-#View Board -> View Picture
+
+# View Board -> View Picture
 
 def viewBoard(request):
-
     template = 'board.html'
 
     return render(request, template)
 
-#Login -> Authenticate
+
+# Login -> Authenticate
 
 def login(request):
-
     template = 'login.html'
 
     return render(request, template)
 
-#Register -> Add User
+
+# Register -> Add User
 
 def register(request):
-
     return render(request, 'register.html')
 
-#Add User
+
+# Add User
 
 def addUser(request):
-
     if request.method == 'POST':
-
         firstName = request.POST.get("firstName")
         lastName = request.POST.get("lastName")
         age = request.POST.get("age")
         email = request.POST.get("email")
+        password = request.POST.get("password")
 
-
-        user = User(first_name = firstName, last_name = lastName, age = age, email = email)
+        user = User(first_name=firstName, last_name=lastName, age=age, email=email, password=password)
         user.save()
 
         return redirect('index')
 
-#Authenticate -> Login/User Index
+
+# Authenticate -> Login/User Index
 
 def authenticate(request):
-
-    email = request.POST['email']
-    password = request.POST['password']
-    user = authenticate(request, email = email, password = password)
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    user = authenticate(request, email=email, password=password)
 
     if user is not None:
         login(request, user)
@@ -64,5 +62,4 @@ def authenticate(request):
     else:
         return render(request, 'login.html')
 
-
-#View Board -> ViewPicture
+# View Board -> ViewPicture
