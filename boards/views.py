@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from boards.models import User
+from django.contrib.auth.models import User
 
 
 # Index -> ViewBoard/Login/Register
@@ -36,13 +36,13 @@ def register(request):
 
 def addUser(request):
     if request.method == 'POST':
+        username = request.POST.get("username")
         firstName = request.POST.get("firstName")
         lastName = request.POST.get("lastName")
-        age = request.POST.get("age")
         email = request.POST.get("email")
         password = request.POST.get("password")
 
-        user = User(first_name=firstName, last_name=lastName, age=age, email=email, password=password)
+        user = User.objects.create_user(username = username, first_name=firstName, last_name=lastName, email=email, password=password)
         user.save()
 
         return redirect('index')
