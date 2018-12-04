@@ -9,10 +9,32 @@ def index(request):
 
     return render(request, template)
 
+#Index -> Login/ViewBoard/Register
+
+def viewBoard(request):
+
+    template = 'board.html'
+
+    return render(request, template)
+
+def login(request):
+
+    if not request.user.is_authenticated:
+        return render(request, 'register.html')
+
+    return render(request, 'login.html')
+
+
+
+#Login -> Register/Authenticate
+
+#Register
+
 def register(request):
 
     return render(request, 'register.html')
 
+#If (new user) then add user else authenticate
 
 def addUser(request):
 
@@ -28,3 +50,22 @@ def addUser(request):
         user.save()
 
         return redirect('index')
+
+
+#Authenticate
+
+def authenticate(request):
+
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username = username, password = password)
+
+    if user is not None:
+        login(request, user)
+        return redirect('index')
+
+    else:
+        return render(request, 'login.html')
+
+
+#View Board -> ViewPicture
