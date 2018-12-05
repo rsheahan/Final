@@ -5,11 +5,11 @@
 
     <h1>Login</h1>
 
-    <form action = "{% url 'authenticate' %}" method = "post">
+    <form action = "{% url 'checkUser' %}" method = "post">
 
     {% csrf_token %}
 
-    Email: <input name = "email" type = "text"> <br>
+    Username: <input name = "username" type = "text"> <br>
 
     Password: <input name="password" type = "password"> <br>
 

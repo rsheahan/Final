@@ -1,5 +1,8 @@
-from django.shortcuts import render, redirect
+from __future__ import unicode_literals
+
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 
 
 # Index -> ViewBoard/Login/Register
@@ -18,9 +21,9 @@ def viewBoard(request):
     return render(request, template)
 
 
-# Login -> Authenticate
+# Login -> Check User
 
-def login(request):
+def loginView(request):
     template = 'login.html'
 
     return render(request, template)
@@ -48,16 +51,16 @@ def addUser(request):
         return redirect('index')
 
 
-# Authenticate -> Login/User Index
+# Check User -> Login/User Index
 
-def authenticate(request):
-    email = request.POST.get('email')
-    password = request.POST.get('password')
-    user = authenticate(request, email=email, password=password)
+def checkUser(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
 
     if user is not None:
         login(request, user)
-        return redirect('userindex')
+        return render(request, 'userindex.html')
 
     else:
         return render(request, 'login.html')

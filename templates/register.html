@@ -4,9 +4,9 @@
 
 <form action="{% url 'addUser'%}" method="post">{% csrf_token %}
 
-        First Name:   <input type="text" name="firstName" placeholder="Your Name Here">
+        Username:     <input type="text" name="username" placeholder="Enter Username Here" >
+        First Name:   <input type="text" name="firstName" placeholder="Your First Name Here">
         Last Name:    <input type="text" name="lastName" placeholder="Your Last Name Here">
-        Age:          <input type="text" name="age" placeholder="Your age">
         Email:        <input type="text" name="email" placeholder="Your Email Here">
         Password:     <input type="text" name="password" placeholder="Enter Password Here">
 
