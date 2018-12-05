@@ -1,17 +1,7 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Create your models here.
-
-class User(models.Model):
-    first_name = models.CharField(max_length=60)
-    last_name = models.CharField(max_length=60)
-    age = models.IntegerField()
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.email
-
 
 class Board(models.Model):
     name = models.CharField(max_length=60)

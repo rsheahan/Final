@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    This is the index if the user is loggin in.  <br>
+
+    <a href="{%  url 'submitPicture' %}">Submit Picture</a> <br>
+
+    <a href="{%  url 'viewBoard' %}">View Boards</a> <br>
+
+    <a href="{%  url 'profile' %}">My Profile</a> <br>
+
+    <a href="{%  url 'logout' %}">Logout</a> <br>
+
+
+{%  endblock %}
