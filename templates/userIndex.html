@@ -3,15 +3,17 @@
 {% block content %}
 
 
-    This is the index if the user is loggin in.  <br>
+    This is the index if the user is logged in.  <br>
 
-    <a href="{%  url 'submitPicture' %}">Submit Picture</a> <br>
+   {% comment %} <a href="{%  url 'submitPicture' %}">Submit Picture</a> <br>
 
     <a href="{%  url 'viewBoard' %}">View Boards</a> <br>
 
     <a href="{%  url 'profile' %}">My Profile</a> <br>
 
-    <a href="{%  url 'logout' %}">Logout</a> <br>
+    {% endcomment %}
+
+    <a href="{%  url 'logoutView' %}">Logout</a> <br>
 
 
 {%  endblock %}

@@ -17,14 +17,18 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
+
 from boards import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
+    url(r'^userIndex/', views.userIndex, name='userIndex'),
     url(r'^register/', views.register, name='register'),
     url(r'^addUser', views.addUser, name='addUser'),
     url(r'^loginView/', views.loginView, name='loginView'),
-    url(r'^checkUser/', views.authenticate, name='checkUser')
+    url(r'^checkUser', views.checkUser, name='checkUser'),
+    url(r'^logoutView',views.logoutView, name='logoutView')
+
 
 ]

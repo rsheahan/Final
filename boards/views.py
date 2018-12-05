@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
@@ -13,6 +13,16 @@ def index(request):
     return render(request, template)
 
 
+def userIndex(request):
+
+    if not request.user.is_authenticated:
+        return redirect('loginView')
+
+    template = 'userIndex.html'
+
+    return render(request, template)
+
+
 # View Board -> View Picture
 
 def viewBoard(request):
@@ -21,7 +31,7 @@ def viewBoard(request):
     return render(request, template)
 
 
-# Login -> Check User
+# Login View -> Check User
 
 def loginView(request):
     template = 'login.html'
@@ -45,24 +55,37 @@ def addUser(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
 
-        user = User.objects.create_user(username = username, first_name=firstName, last_name=lastName, email=email, password=password)
+        user = User.objects.create_user(username=username, first_name=firstName, last_name=lastName, email=email,
+                                        password=password)
         user.save()
 
         return redirect('index')
 
 
-# Check User -> Login/User Index
+# Check User -> User Index
 
 def checkUser(request):
     username = request.POST['username']
     password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
+    user = authenticate(username=username, password=password)
 
     if user is not None:
         login(request, user)
-        return render(request, 'userindex.html')
+        return redirect('userIndex')
 
     else:
         return render(request, 'login.html')
+
+
+#User Index -> Profile/View Board/ Submit Picture/ Logout View
+
+
+
+
+def logoutView(request):
+
+    logout(request)
+
+    return redirect('index')
 
 # View Board -> ViewPicture
