@@ -111,6 +111,8 @@ def logoutView(request):
 def viewBoard(request):
     template = 'board.html'
 
+
+
     return render(request, template)
 
 
