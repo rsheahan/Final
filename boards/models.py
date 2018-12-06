@@ -1,8 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
-
 
 # Create your models here.
+
 
 class User(models.Model):
     username = models.CharField(max_length=60)
@@ -26,7 +25,7 @@ class Picture(models.Model):
     pic = models.ImageField(default="default.jpg")
     pic_name = models.CharField(max_length=60)
     pic_description = models.CharField(max_length=200)
-    pic_date = models.DateTimeField
+    pic_date = models.DateField
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
 

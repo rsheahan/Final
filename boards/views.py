@@ -1,11 +1,12 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from .models import Board, User, Picture
 
 
-# Index -> ViewBoard/Login/Register
+# Index -> Login View/Register/ViewBoard
+
 
 def index(request):
     template = 'index.html'
@@ -14,7 +15,6 @@ def index(request):
 
 
 def userIndex(request):
-
     if not request.user.is_authenticated:
         return redirect('loginView')
 
@@ -23,20 +23,29 @@ def userIndex(request):
     return render(request, template)
 
 
-# View Board -> View Picture
-
-def viewBoard(request):
-    template = 'board.html'
-
-    return render(request, template)
-
-
 # Login View -> Check User
+
 
 def loginView(request):
     template = 'login.html'
 
     return render(request, template)
+
+
+# Check User -> User Index/ Login View (Failed Login Attempt)
+
+
+def checkUser(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        login(request, user)
+        return redirect('userIndex')
+
+    else:
+        return redirect('loginView')
 
 
 # Register -> Add User
@@ -55,37 +64,86 @@ def addUser(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
 
-        user = User.objects.create_user(username=username, first_name=firstName, last_name=lastName, email=email,
-                                        password=password)
-        user.save()
+        newUser = User(username=username, first_name=firstName, last_name=lastName, email=email,
+                       password=password)
+        newUser.save()
 
         return redirect('index')
 
 
-# Check User -> User Index
+# User Index -> Profile/ Logout/ View Board/ Submit Picture
 
-def checkUser(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-
-    if user is not None:
-        login(request, user)
-        return redirect('userIndex')
-
-    else:
-        return render(request, 'login.html')
+# Profile -> Edit Profile
 
 
-#User Index -> Profile/View Board/ Submit Picture/ Logout View
+def profileView(request):
+    user = request.user
+
+    template = 'profile.html'
+
+    context = {'currentUser', user}
+
+    return render(request, template, context)
 
 
+# Edit Profile
+
+def editProfile(request):
+    # todo
+
+    return redirect('profileView')
+
+
+# Logout
 
 
 def logoutView(request):
-
     logout(request)
 
     return redirect('index')
 
-# View Board -> ViewPicture
+
+# View Board -> View Picture
+
+
+def viewBoard(request):
+    template = 'board.html'
+
+    return render(request, template)
+
+
+# View Picture -> Edit Picture
+
+
+def viewPicture(request):
+    template = 'picture.html'
+
+    return render(request, template)
+
+
+# EditPicture -> Delete Picture
+
+
+def editPicture(request):
+    return redirect('viewPicture')
+
+
+# Delete Picture
+
+
+def deletePicture(request):
+    return redirect('userIndex')
+
+
+# Submit Picture -> Add Picture
+
+
+def submitPicture(request):
+    return redirect('addPicture')
+
+
+# Add Picture
+
+
+def addPicture(request):
+    return redirect('userIndex')

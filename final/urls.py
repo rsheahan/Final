@@ -28,7 +28,8 @@ urlpatterns = [
     url(r'^addUser', views.addUser, name='addUser'),
     url(r'^loginView/', views.loginView, name='loginView'),
     url(r'^checkUser', views.checkUser, name='checkUser'),
-    url(r'^logoutView',views.logoutView, name='logoutView')
+    url(r'^logoutView', views.logoutView, name='logoutView'),
+    url(r'^profileView', views.profileView, name='profileView')
 
 
 ]
