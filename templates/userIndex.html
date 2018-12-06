@@ -5,7 +5,15 @@
 
     This is the index if the user is logged in.  <br>
 
-   #dropdown menu for boards
+    <ol>
+        {% for board in boards %}
+            <a href="{% url 'viewBoard' board.id %}">
+                <li>{{ board.name }}</li>
+            </a>
+        {% endfor %}
+    </ol>
+
+    <hr>
 
 
    {% comment %} <a href="{%  url 'submitPicture' %}">Submit Picture</a> <br>

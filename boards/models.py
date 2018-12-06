@@ -1,9 +1,11 @@
+from __future__ import unicode_literals
+
 from django.db import models
 
 # Create your models here.
 
 
-class User(models.Model):
+class localUsers(models.Model):
     username = models.CharField(max_length=60)
     firstName = models.CharField(max_length=60)
     lastName = models.CharField(max_length=60)
@@ -23,11 +25,11 @@ class Board(models.Model):
 
 class Picture(models.Model):
     pic = models.ImageField(default="default.jpg")
-    pic_name = models.CharField(max_length=60)
-    pic_description = models.CharField(max_length=200)
-    pic_date = models.DateTimeField()
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    picName = models.CharField(max_length=60)
+    picDescription = models.CharField(max_length=200)
+    picDate = models.DateTimeField()
+    owner = models.ForeignKey(localUsers, on_delete=models.CASCADE)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.pic_name
+        return self.picName

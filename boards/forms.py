@@ -1,9 +1,9 @@
 from django import forms
 from django.forms import ModelForm
-from .models import User, Picture
+from .models import localUsers, Picture
 
 
-class UserForm(forms.Form):
+class localUsersForm(forms.Form):
     username = forms.CharField(required=True, max_length=60)
     firstName = forms.CharField(required=True, max_length=60)
     lastName = forms.CharField(required=True, max_length=60)
@@ -13,18 +13,18 @@ class UserForm(forms.Form):
 
 class PictureForm(forms.Form):
     pic = forms.ImageField(required=True)
-    pic_name = forms.CharField(required=True, max_length=60)
-    pic_description = forms.CharField(required=True, max_length=200)
-    pic_date = forms.DateTimeField(required=True)
+    picName = forms.CharField(required=True, max_length=60)
+    picDescription = forms.CharField(required=True, max_length=200)
+    picDate = forms.DateTimeField(required=True)
 
 
-class UserForm(ModelForm):
+class localUserForm(ModelForm):
     class Meta:
-        model = User
+        model = localUsers
         fields = ['username', 'firstName', 'lastName', 'email', 'password']
 
 
 class PictureForm(ModelForm):
     class Meta:
         model = Picture
-        fields = ['pic', 'pic_name', 'pic_description', 'pic_date']
+        fields = ['pic', 'picName', 'picDescription', 'picDate']

@@ -5,10 +5,16 @@
 
     This is the index.  <br>
 
-    #dropdown menu for boards
+    <ol>
+        {% for board in boards %}
+            <a href="{% url 'viewBoard' board.id %}">
+                <li>{{ board.name }}</li>
+            </a>
+        {% endfor %}
+    </ol>
 
 
-
+    <hr>
 
     <a href="{%  url 'loginView' %}">Login</a>  <br>
 

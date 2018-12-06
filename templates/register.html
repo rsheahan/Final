@@ -2,17 +2,15 @@
 
 {% block content %}
 
-<form action="{% url 'addUser'%}" method="post">{% csrf_token %}
+<form action="{% url 'register'%}" method="post">
 
-        Username:     <input type="text" name="username" placeholder="Enter Username Here" >
-        First Name:   <input type="text" name="firstName" placeholder="Your First Name Here">
-        Last Name:    <input type="text" name="lastName" placeholder="Your Last Name Here">
-        Email:        <input type="text" name="email" placeholder="Your Email Here">
-        Password:     <input type="text" name="password" placeholder="Enter Password Here">
+        {% csrf_token %}
 
-        <input type="submit" value="Register">
+        {{ form.as_p }}
 
-    </form>
+    <input type="submit" value="Register">
+
+</form>
 
 
 {%  endblock %}

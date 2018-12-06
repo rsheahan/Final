@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from .models import Board, User, Picture
-from .forms import UserForm, PictureForm
+from .models import Board, localUsers, Picture
+from .forms import localUsersForm, PictureForm
 
 
 # Index -> Login View/Register/ViewBoard
@@ -14,7 +14,7 @@ def index(request):
 
     boards = Board.objects.all()
 
-    context = {'boards', boards}
+    context = {'boards': boards}
 
     return render(request, template, context)
 
@@ -27,7 +27,7 @@ def userIndex(request):
 
     boards = Board.objects.all()
 
-    context = {'boards', boards}
+    context = {'boards': boards}
 
     return render(request, template, context)
 
@@ -57,27 +57,31 @@ def checkUser(request):
         return redirect('loginView')
 
 
-# Register -> Add User
+# Register
 
 def register(request):
-    return render(request, 'register.html')
-
-
-# Add User
-
-def addUser(request):
     if request.method == 'POST':
-        username = request.POST.get("username")
-        firstName = request.POST.get("firstName")
-        lastName = request.POST.get("lastName")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
 
-        newUser = User(username=username, first_name=firstName, last_name=lastName, email=email,
-                       password=password)
-        newUser.save()
+        form = localUsersForm(request.POST)
 
-        return redirect('index')
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            firstName = form.cleaned_data['firstName']
+            lastName = form.cleaned_data['lastName']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            newUser = localUsers(username=username, firstName=firstName, lastName=lastName, email=email,
+                                 password=password)
+            newUser.save()
+
+            return redirect('loginView')
+
+    else:
+
+        form = localUsersForm()
+
+    return render(request, 'register.html', {'form': form})
 
 
 # User Index -> Profile/ Logout/ View Board/ Submit Picture
@@ -86,11 +90,11 @@ def addUser(request):
 
 
 def profileView(request):
-    user = request.user
+    localUser = request.user
 
     template = 'profile.html'
 
-    context = {'currentUser', user}
+    context = {'localUser': localUser}
 
     return render(request, template, context)
 
@@ -115,13 +119,14 @@ def logoutView(request):
 # View Board -> View Picture
 
 
-def viewBoard(request):
-
-    board = Board.objects.get(name=name)
+def viewBoard(request, id):
+    # board = Board.objects.get(id=id)
 
     template = 'board.html'
 
-    pictures = Picture.objects.all().filter(owner=board.name)
+    pictures = Picture.objects.all()
+
+    # boardPictures = pictures.filter(owner=board.name)
 
     context = {'pictures': pictures}
 
@@ -131,7 +136,7 @@ def viewBoard(request):
 # View Picture -> Edit Picture
 
 
-def viewPicture(request):
+def viewPicture(request, id):
     template = 'picture.html'
 
     return render(request, template)
