@@ -2,6 +2,15 @@
 
 {% block content %}
 
+    <h1>{{ Board.name }}</h1>
+
+       <ol>
+        {% for picture in pictures %}
+            <a href="{% url 'viewPicture' picture.pic_name %}">
+                <li>{{ picture.pic }}</li>
+            </a>
+        {% endfor %}
+       </ol>
 
 
 

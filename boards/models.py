@@ -30,4 +30,4 @@ class Picture(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.pic
+        return self.pic_name

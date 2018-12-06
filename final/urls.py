@@ -29,7 +29,13 @@ urlpatterns = [
     url(r'^loginView/', views.loginView, name='loginView'),
     url(r'^checkUser', views.checkUser, name='checkUser'),
     url(r'^logoutView', views.logoutView, name='logoutView'),
-    url(r'^profileView', views.profileView, name='profileView')
+    url(r'^profileView', views.profileView, name='profileView'),
+    url(r'^viewBoard', views.viewBoard, name='viewBoard'),
+    url(r'^viewPicture', views.viewPicture, name='viewPicture'),
+    url(r'^addPicture', views.addPicture, name='addPicture'),
+    url(r'^editPicture', views.editPicture, name='editPicture'),
+    url(r'^submitPicture', views.submitPicture, name='submitPicture'),
+    url(r'^deletePicture', views.deletePicture, name='deletePicture')
 
 
 ]

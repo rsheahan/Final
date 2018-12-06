@@ -12,7 +12,11 @@ from .forms import UserForm, PictureForm
 def index(request):
     template = 'index.html'
 
-    return render(request, template)
+    boards = Board.objects.all()
+
+    context = {'boards', boards}
+
+    return render(request, template, context)
 
 
 def userIndex(request):
@@ -21,7 +25,11 @@ def userIndex(request):
 
     template = 'userIndex.html'
 
-    return render(request, template)
+    boards = Board.objects.all()
+
+    context = {'boards', boards}
+
+    return render(request, template, context)
 
 
 # Login View -> Check User
@@ -78,7 +86,6 @@ def addUser(request):
 
 
 def profileView(request):
-
     user = request.user
 
     template = 'profile.html'
@@ -109,11 +116,16 @@ def logoutView(request):
 
 
 def viewBoard(request):
+
+    board = Board.objects.get(name=name)
+
     template = 'board.html'
 
+    pictures = Picture.objects.all().filter(owner=board.name)
 
+    context = {'pictures': pictures}
 
-    return render(request, template)
+    return render(request, template, context)
 
 
 # View Picture -> Edit Picture
