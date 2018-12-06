@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from .models import Board, User, Picture
+from .forms import UserForm, PictureForm
 
 
 # Index -> Login View/Register/ViewBoard
@@ -77,6 +78,7 @@ def addUser(request):
 
 
 def profileView(request):
+
     user = request.user
 
     template = 'profile.html'
