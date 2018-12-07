@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from django.conf.urls.static import static
 
@@ -34,9 +34,14 @@ urlpatterns = [
     url(r'^profileView', views.profileView, name='profileView'),
     url(r'^viewBoard/(?P<id>\d+)/', views.viewBoard, name='viewBoard'),
     url(r'^viewPicture/(?P<id>\d+)/', views.viewPicture, name='viewPicture'),
-    url(r'^editPicture', views.editPicture, name='editPicture'),
+    url(r'^editPicture/(?P<id>\d+)/', views.editPicture, name='editPicture'),
     url(r'^submitPicture', views.submitPicture, name='submitPicture'),
-    url(r'^deletePicture', views.deletePicture, name='deletePicture')
+    url(r'^deletePicture/(?P<id>\d+)/', views.deletePicture, name='deletePicture'),
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]

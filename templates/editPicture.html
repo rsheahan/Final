@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Edit Picture</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Save">
+
+    </form>
+
+    {% if product %}
+        <a href="{% url 'deletePicture' picture.id %}">Delete</a>
+    {% endif %}
+
+
+
+
+
+{%  endblock %}

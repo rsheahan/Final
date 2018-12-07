@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from .models import Picture
 
 
-class localUsersForm(forms.Form):
+class UserForm(forms.Form):
     username = forms.CharField(required=True, max_length=60)
     first_name = forms.CharField(required=True, max_length=60)
     last_name = forms.CharField(required=True, max_length=60)
@@ -19,7 +19,7 @@ class PictureForm(forms.Form):
     board = forms.CharField(required=True)
 
 
-class localUserForm(ModelForm):
+class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password', 'email', 'first_name', 'last_name']

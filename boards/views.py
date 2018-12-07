@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from .models import Board, Picture
-from .forms import localUsersForm, PictureForm
+from .forms import UserForm, PictureForm
 
 
 # Index -> Login View/Register/ViewBoard
@@ -53,7 +53,7 @@ def loginView(request):
 def checkUser(request):
     username = request.POST['username']
     password = request.POST['password']
-    user = authenticate(username=username, password=password)
+    user = authenticate(request, username=username, password=password)
 
     if user is not None:
         login(request, user)
@@ -68,24 +68,23 @@ def checkUser(request):
 def register(request):
     if request.method == 'POST':
 
-        form = localUsersForm(request.POST)
+        form = UserForm(request.POST)
 
         if form.is_valid():
             username = form.cleaned_data['username']
-            firstName = form.cleaned_data['firstName']
-            lastName = form.cleaned_data['lastName']
+            firstName = form.cleaned_data['first_name']
+            lastName = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
-            newUser = User(username=username, firstName=firstName, lastName=lastName, email=email,
-                                 password=password)
-            newUser.save()
+            newUser = User.objects.create_user(username=username, password=password, email=email, first_name=firstName, last_name=lastName)
+
 
             return redirect('loginView')
 
     else:
 
-        form = localUsersForm()
+        form = UserForm()
 
     return render(request, 'register.html', {'form': form})
 
@@ -96,11 +95,11 @@ def register(request):
 
 
 def profileView(request):
-    localUser = request.user
+    user = request.user
 
     template = 'profile.html'
 
-    context = {'localUser': localUser}
+    context = {'user': user}
 
     return render(request, template, context)
 
@@ -143,6 +142,13 @@ def viewBoard(request, id):
 
 
 def viewPicture(request, id):
+
+    user = request.user
+    picture = Picture.objects.get(id=id)
+
+    if user == picture.owner:
+        redirect('authPicture.html')
+
     template = 'picture.html'
 
     picture = Picture.objects.get(id=id)
@@ -157,14 +163,45 @@ def viewPicture(request, id):
 # EditPicture -> Delete Picture
 
 
-def editPicture(request):
-    return redirect('viewPicture')
+def editPicture(request, id):
+
+    picture = Picture.objects.get(id=id)
+
+    form = PictureForm(request.POST or None, instance=picture)
+
+    if form.is_valid():
+            pic = form.cleaned_data['pic']
+            picName = form.cleaned_data['picName']
+            picDescription = form.cleaned_data['picDescription']
+            board = form.cleaned_data['board']
+
+            user = request.localUser
+
+            owner = user.username
+
+            print(owner)
+
+            pic = PictureForm(pic=pic, picName=picName, picDescription=picDescription, owner=owner,
+                             board=board)
+            print(pic.pic)
+
+            pic.save()
+            return redirect('viewPicture')
+
+
+
+    return render(request, 'editPicture.html', {'form':form, 'picture':picture})
 
 
 # Delete Picture
 
 
-def deletePicture(request):
+def deletePicture(request, id):
+
+    picture = Picture.objects.get(id=id)
+
+    picture.delete()
+
     return redirect('userIndex')
 
 
@@ -182,7 +219,7 @@ def submitPicture(request):
             picDescription = form.cleaned_data['picDescription']
             board = form.cleaned_data['board']
 
-            user = request.localUser
+            user = request.user
 
             owner = user.username
 

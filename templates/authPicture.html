@@ -8,14 +8,6 @@
 
     <p>Picture Description: {{ picture.picDescription }}</p>
 
-    {%  if request.user == picture.owner  %}
-
-        <a href="{% url 'editPicture' picture.id %}">Edit</a> <br>
-        <a href="{% url 'deletePicture' picture.id %}">Delete</a> <br>
-
-
-    {% endif %}
-
 
 
 {%  endblock %}
