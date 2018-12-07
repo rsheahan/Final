@@ -17,8 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
+from django.conf.urls.static import static
+
 
 from boards import views
+from final import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,4 +40,4 @@ urlpatterns = [
     url(r'^deletePicture', views.deletePicture, name='deletePicture')
 
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

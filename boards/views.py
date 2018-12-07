@@ -120,13 +120,13 @@ def logoutView(request):
 
 
 def viewBoard(request, id):
-    # board = Board.objects.get(id=id)
+
+    board = Board.objects.get(id=id)
+    print(board)
 
     template = 'board.html'
 
-    pictures = Picture.objects.all()
-
-    # boardPictures = pictures.filter(owner=board.name)
+    pictures = Picture.objects.all().filter(board=board)
 
     context = {'pictures': pictures}
 
@@ -139,7 +139,13 @@ def viewBoard(request, id):
 def viewPicture(request, id):
     template = 'picture.html'
 
-    return render(request, template)
+    picture = Picture.objects.get(id=id)
+
+    context={'picture':picture}
+
+    print(picture.pic)
+
+    return render(request, template, context)
 
 
 # EditPicture -> Delete Picture

@@ -24,7 +24,7 @@ class Board(models.Model):
 
 
 class Picture(models.Model):
-    pic = models.ImageField(default="default.jpg")
+    pic = models.ImageField(upload_to='media')
     picName = models.CharField(max_length=60)
     picDescription = models.CharField(max_length=200)
     picDate = models.DateTimeField()
