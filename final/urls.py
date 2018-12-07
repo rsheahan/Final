@@ -35,7 +35,7 @@ urlpatterns = [
     url(r'^viewBoard/(?P<id>\d+)/', views.viewBoard, name='viewBoard'),
     url(r'^viewPicture/(?P<id>\d+)/', views.viewPicture, name='viewPicture'),
     url(r'^editPicture/(?P<id>\d+)/', views.editPicture, name='editPicture'),
-    url(r'^submitPicture', views.submitPicture, name='submitPicture'),
+    url(r'^submitPicture/', views.submitPicture, name='submitPicture'),
     url(r'^deletePicture/(?P<id>\d+)/', views.deletePicture, name='deletePicture'),
 
 

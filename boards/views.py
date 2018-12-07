@@ -33,8 +33,6 @@ def userIndex(request):
 
     currentUser = request.user
 
-    print(currentUser)
-
     return render(request, template, context)
 
 
@@ -170,23 +168,21 @@ def editPicture(request, id):
     form = PictureForm(request.POST or None, instance=picture)
 
     if form.is_valid():
-            pic = form.cleaned_data['pic']
-            picName = form.cleaned_data['picName']
-            picDescription = form.cleaned_data['picDescription']
-            board = form.cleaned_data['board']
+            #pic = form.cleaned_data['pic']
+            #picName = form.cleaned_data['picName']
+            #picDescription = form.cleaned_data['picDescription']
+            #board = form.cleaned_data['board']
 
-            user = request.localUser
+            #user = request.user
 
-            owner = user.username
+            #owner = user
 
-            print(owner)
+            form.save()
 
-            pic = PictureForm(pic=pic, picName=picName, picDescription=picDescription, owner=owner,
-                             board=board)
-            print(pic.pic)
+            #updatedPic = PictureForm(pic=pic, picName=picName, picDescription=picDescription, owner=owner, board=board)
 
-            pic.save()
-            return redirect('viewPicture')
+            #updatedPic.save()
+            return redirect('userIndex')
 
 
 
@@ -211,7 +207,7 @@ def deletePicture(request, id):
 def submitPicture(request):
     if request.method == 'POST':
 
-        form = PictureForm(request.POST)
+        form = PictureForm(request.POST, request.FILES)
 
         if form.is_valid():
             pic = form.cleaned_data['pic']
@@ -221,17 +217,15 @@ def submitPicture(request):
 
             user = request.user
 
-            owner = user.username
+            print(user)
 
-            print(owner)
-
-            newPic = PictureForm(pic=pic, picName=picName, picDescription=picDescription, owner=owner,
+            newPic = Picture(pic=pic, picName=picName, picDescription=picDescription, owner=user,
                                  board=board)
             print(newPic.pic)
 
             newPic.save()
 
-            return redirect('loginView')
+            return redirect('userIndex')
 
     else:
 
