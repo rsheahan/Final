@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from .models import Board, localUsers, Picture
+from .models import Board, Picture
 from .forms import localUsersForm, PictureForm
 
 
@@ -16,6 +17,7 @@ def index(request):
 
     context = {'boards': boards}
 
+
     return render(request, template, context)
 
 
@@ -28,6 +30,10 @@ def userIndex(request):
     boards = Board.objects.all()
 
     context = {'boards': boards}
+
+    currentUser = request.user
+
+    print(currentUser)
 
     return render(request, template, context)
 
@@ -71,7 +77,7 @@ def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
-            newUser = localUsers(username=username, firstName=firstName, lastName=lastName, email=email,
+            newUser = User(username=username, firstName=firstName, lastName=lastName, email=email,
                                  password=password)
             newUser.save()
 
@@ -162,15 +168,39 @@ def deletePicture(request):
     return redirect('userIndex')
 
 
-# Submit Picture -> Add Picture
+# Submit Picture
 
 
 def submitPicture(request):
-    return redirect('addPicture')
+    if request.method == 'POST':
+
+        form = PictureForm(request.POST)
+
+        if form.is_valid():
+            pic = form.cleaned_data['pic']
+            picName = form.cleaned_data['picName']
+            picDescription = form.cleaned_data['picDescription']
+            board = form.cleaned_data['board']
+
+            user = request.localUser
+
+            owner = user.username
+
+            print(owner)
+
+            newPic = PictureForm(pic=pic, picName=picName, picDescription=picDescription, owner=owner,
+                                 board=board)
+            print(newPic.pic)
+
+            newPic.save()
+
+            return redirect('loginView')
+
+    else:
+
+        form = PictureForm()
+
+    return render(request, 'submitPicture.html', {'form': form})
 
 
-# Add Picture
 
-
-def addPicture(request):
-    return redirect('userIndex')
