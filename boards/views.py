@@ -105,7 +105,22 @@ def profileView(request):
 # Edit Profile
 
 def editProfile(request):
-    # todo
+
+    profile = request.user
+
+    form = UserForm(request.POST or None, instance=profile)
+
+    if form.is_valid():
+
+        form.save()
+
+        return redirect('userIndex')
+
+
+
+    return render(request, 'editProfile.html', {'form':form})
+
+
 
     return redirect('profileView')
 
@@ -168,20 +183,9 @@ def editPicture(request, id):
     form = PictureForm(request.POST or None, instance=picture)
 
     if form.is_valid():
-            #pic = form.cleaned_data['pic']
-            #picName = form.cleaned_data['picName']
-            #picDescription = form.cleaned_data['picDescription']
-            #board = form.cleaned_data['board']
-
-            #user = request.user
-
-            #owner = user
 
             form.save()
 
-            #updatedPic = PictureForm(pic=pic, picName=picName, picDescription=picDescription, owner=owner, board=board)
-
-            #updatedPic.save()
             return redirect('userIndex')
 
 

@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^editPicture/(?P<id>\d+)/', views.editPicture, name='editPicture'),
     url(r'^submitPicture/', views.submitPicture, name='submitPicture'),
     url(r'^deletePicture/(?P<id>\d+)/', views.deletePicture, name='deletePicture'),
+    url(r'^editProfile', views.editProfile, name='editProfile')
 
 
 
